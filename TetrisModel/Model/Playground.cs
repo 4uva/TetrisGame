@@ -16,25 +16,19 @@ namespace TetrisGameModel
             playgroundarray = CreateArrayofCells();
         }
 
-
-
-
         Cell[,] CreateArrayofCells()
         {
-
             Cell[,] array = new Cell[numberOfRows, numberOfColumns];
 
             for (int i = 0; i < numberOfRows; i++)
-
                 for (int j = 0; j < numberOfColumns; j++)
                 {
                     array[i, j] = Cell.Empty;
                 }
             return array;
+        }
 
-        }//method 2
-
-    }//class
-}//namespace
+    }
+}
 
 
