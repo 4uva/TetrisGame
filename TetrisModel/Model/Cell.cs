@@ -5,7 +5,7 @@ namespace TetrisGameModel
     {
         Empty,
         InAccessible,
-        Busy,
+        Occupied,
         WithFlyingFigure
     }
 }
