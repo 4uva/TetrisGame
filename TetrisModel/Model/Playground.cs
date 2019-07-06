@@ -1,7 +1,16 @@
 ﻿using System;
 
+//ToDo
+// в том, что у нас есть в фигуре клетки -Occupied 
+// в  и в Playground Occupied
+// а вот когда фигура на доске, то мы устанавливаем
+// вместо ее клеток Occupied
+// в клетки Playground клетки withFlyingFigure
+// 2) PutFigure invocation playground occupied cells will change to empty
+
 namespace TetrisGameModel
 {
+
     public class Playground
     {
         public int numberOfRows { get; }
@@ -19,8 +28,6 @@ namespace TetrisGameModel
         }
         void PutFigure(Figure figure)
         {
-
-
             if (figure.Width <= numberOfRows && figure.Height <= numberOfColumns)
             {
                 for (int i = 0; i < figure.Width; i++)
@@ -40,7 +47,11 @@ namespace TetrisGameModel
                     for (int j = 0; j <= figure.Height; j++)
                     {
                         Cell figureCell = figure.Figurearray[i][j];
-                        Playgroundarray[i, j] = figureCell;
+                        if (figureCell != Cell.Empty)
+                        {
+                            figureCell = Cell.WithFlyingFigure;
+                            Playgroundarray[i, j] = figureCell;
+                        }
                     }
                 }
             }
@@ -61,7 +72,6 @@ namespace TetrisGameModel
                 }
             return array;
         }
-
     }
 }
 
