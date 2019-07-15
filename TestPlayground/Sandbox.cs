@@ -7,7 +7,7 @@ namespace TestPlayground
     {
         static int Width = 1000;
         static int Height = 200;
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             // временная песочница
             // 1)
@@ -125,6 +125,84 @@ namespace TestPlayground
                         }*/
 
         }
+        //https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/indexers/comparison-between-properties-and-indexers
+        static void Main(string[] args)
+        {
+            var colors = new Color[,]//var colors определена тут
+            {
+                { Color.Red, Color.Green, Color.Red },
+                { Color.Yellow, Color.Green, Color.Red }
+            };
+            var nr = new NeverRed(colors);
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                    Console.Write(nr[i, j] + " ");
+                    //Console.Write(nr.GetColor(i, j) + " ");
+                Console.WriteLine();
+            }
+
+
+
+            IncapsulationTest test = new IncapsulationTest();
+            //test.NumericProperty = 100; // не компилируется
+           // test.ArrayProperty = null; // тоже не компилируется
+            // но!
+            test.ArrayProperty[0] = 500; // компилируется!
+        }
+    }
+
+    class IncapsulationTest
+    {
+        public int NumericProperty { get; } // не требует инкапсуляции
+        public int[] ArrayProperty { get; } // требует инкапцуляции
+        public IncapsulationTest()
+        {
+            NumericProperty = 100;
+            ArrayProperty = new[] { 1, 2, 3, 4, 5 };
+        }
+    }
+
+    enum Color
+    {
+        Red,
+        Yellow,
+        Green
+    }
+
+    // покамест обыкновенный класс
+    class NeverRed
+    {
+        public NeverRed(Color[,] colors)//var colors почему когда мы кладем эту функцию в другой класс 
+            //и там в аргумент кладем var colors compiler  не ругается
+        {
+            originalColors = colors;
+        }
+
+        // вот это обыкновенная функция
+        public Color GetColor(int i, int j)
+        {
+            Color originalColor = originalColors[i, j];//это индексация массива
+            if (originalColor == Color.Red)
+                return Color.Yellow;
+            else
+                return originalColor;
+        }
+
+        // а это индексатор
+        public Color this[int i, int j]//вопрос только в слове this
+        {//Console.Write(nr.GetColor(i, j) + " ");
+            get
+            {
+                Color originalColor = originalColors[i, j];//это индексация массива
+                if (originalColor == Color.Red)
+                    return Color.Yellow;
+                else
+                    return originalColor;
+            }
+        }
+
+        Color[,] originalColors;
     }
 
     class Encryptor
